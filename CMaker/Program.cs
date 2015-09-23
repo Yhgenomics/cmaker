@@ -99,14 +99,14 @@ namespace CMaker
         {
             Console.WriteLine("CMaker");
             Console.WriteLine("YHGenomics Inc. Production");
-            Console.WriteLine("CMaker project=name [options]");
+            Console.WriteLine("CMaker project:name [options]");
             Console.WriteLine("options:");
-            Console.WriteLine("       ft=*.h,*.cpp(default)");
-            Console.WriteLine("       out=exe(default) - support exe,lib");
-            Console.WriteLine("       compiler=/usr/bin/clang++(default) - support gcc,g++");
-            Console.WriteLine("       flag=-Wall c++11(default)");
-            Console.WriteLine("       debug=[null](default) - support -g");
-            Console.WriteLine("       auto=false(default) - support -g : auto invoke cmake and make");
+            Console.WriteLine("       ft:*.h,*.cpp(default)");
+            Console.WriteLine("       out:exe(default) - support exe,lib");
+            Console.WriteLine("       compiler:/usr/bin/clang++(default) - support gcc,g++");
+            Console.WriteLine("       flag:-Wall --std=c++11(default)");
+            Console.WriteLine("       debug:[null](default) - support -g");
+            Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
         }
         static void DefaultValue()
         {
@@ -121,7 +121,7 @@ namespace CMaker
         {
             foreach (var item in args)
             { 
-                var kv = item.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
+                var kv = item.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
                 if (kv.Length != 2)
                 {
                     continue;
