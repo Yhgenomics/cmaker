@@ -120,9 +120,7 @@ namespace CMaker
         static void ReadArrengment(string[] args)
         {
             foreach (var item in args)
-            {
-                string d = item.TrimStart().TrimEnd();
-                
+            { 
                 var kv = item.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
                 if (kv.Length != 2)
                 {
