@@ -23,6 +23,7 @@ namespace CMaker
         public const string FLAG = "flag";
         public const string DEBUG_FLAG = "debug";
         public const string AUTO = "auto";
+        public const string LIBS = "libs";
 
         public static StringBuilder OutputData = new StringBuilder();
         public static Dictionary<string, string> Settings = new Dictionary<string, string>();
@@ -66,13 +67,7 @@ namespace CMaker
             else if(Settings[OUT] == "lib")
             {
                 OutputData.AppendLine(string.Format("add_library({0} {1})", Settings[PROJECTNAME], "${SRC_LIST}"));
-            }
-
-            for (int i = 3; i < args.Length; i++)
-            {
-                var linkLibs = args[i].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ",linkLibs)));
-            }
+            } 
 
             if(Settings.ContainsKey(COMPILER) && !string.IsNullOrEmpty(Settings[COMPILER]))
                 OutputData.AppendLine(string.Format("SET (CMAKE_CXX_COMPILER \"{0}\")", Settings[COMPILER]));
@@ -81,6 +76,12 @@ namespace CMaker
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
                 OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
 
+            if (Settings.ContainsKey(LIBS) && !string.IsNullOrEmpty(Settings[LIBS]))
+            {
+                var libsArray = Settings[LIBS].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
+            }
+                
             System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "CMakeLists.txt"), OutputData.ToString());
 
             if (Settings.ContainsKey(AUTO) && !string.IsNullOrEmpty(Settings[AUTO]) && Settings[AUTO]=="true")
@@ -103,10 +104,11 @@ namespace CMaker
             Console.WriteLine("options:");
             Console.WriteLine("       ft:*.h,*.cpp(default)");
             Console.WriteLine("       out:exe(default) - support exe,lib");
-            Console.WriteLine("       compiler:/usr/bin/clang++(default) - support gcc,g++");
+            Console.WriteLine("       compiler:/usr/bin/clang(default) - support gcc,g++");
             Console.WriteLine("       flag:-Wall --std=c++11(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
+            Console.WriteLine("       libs:[null] - support libxxx.o,libyyy.o");
         }
         static void DefaultValue()
         {
@@ -116,6 +118,7 @@ namespace CMaker
             Settings[FLAG] = "-Wall --std=c++11";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
+            Settings[LIBS] = "";
         }
         static void ReadArrengment(string[] args)
         {
