@@ -92,12 +92,16 @@ namespace CMaker
             if (Settings.ContainsKey(AUTO) && !string.IsNullOrEmpty(Settings[AUTO]) && Settings[AUTO]=="true")
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
+                psi.WorkingDirectory = make_directory;
+
                 psi.FileName = "cmake";
-                psi.Arguments = "./"+ CMakeFileDirectoryName;
+                psi.Arguments = "./";
                 Process.Start(psi).WaitForExit();
 
                 psi = new ProcessStartInfo();
-                psi.FileName = "./"+ CMakeFileDirectoryName + "/make";
+                psi.WorkingDirectory = make_directory;
+                psi.Arguments = "./";
+                psi.FileName = "make";
                 Process.Start(psi);
             }
         }
