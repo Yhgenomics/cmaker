@@ -82,17 +82,17 @@ namespace CMaker
                 OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
             }
                 
-            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "CMakeLists.txt"), OutputData.ToString());
+            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(),"\\CMakerBuild\\", "CMakeLists.txt"), OutputData.ToString());
 
             if (Settings.ContainsKey(AUTO) && !string.IsNullOrEmpty(Settings[AUTO]) && Settings[AUTO]=="true")
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = "cmake";
-                psi.Arguments = "./";
+                psi.Arguments = "./CMakerBuild";
                 Process.Start(psi).WaitForExit();
 
                 psi = new ProcessStartInfo();
-                psi.FileName = "make";
+                psi.FileName = "./CMakerBuild/make";
                 Process.Start(psi);
             }
         }
