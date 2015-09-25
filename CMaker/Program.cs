@@ -83,7 +83,9 @@ namespace CMaker
             }
             Console.WriteLine("Create Directory:" + Directory.GetCurrentDirectory() + "/CMakerBuild");
             System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory()+ "/CMakerBuild");
-            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(),"/CMakerBuild/", "CMakeLists.txt"), OutputData.ToString());
+            string make_directory = Directory.GetCurrentDirectory() + "/CMakerBuild/";
+            Console.WriteLine("CMake File:" + make_directory + "CMakeLists.txt");
+            System.IO.File.WriteAllText(Path.Combine(make_directory, "CMakeLists.txt"), OutputData.ToString());
 
             if (Settings.ContainsKey(AUTO) && !string.IsNullOrEmpty(Settings[AUTO]) && Settings[AUTO]=="true")
             {
