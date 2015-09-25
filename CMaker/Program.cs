@@ -81,7 +81,7 @@ namespace CMaker
                 var libsArray = Settings[LIBS].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
             }
-            Console.WriteLine("Create Directory:" + Directory.GetCurrentDirectory() + "/CMakerBuild);
+            Console.WriteLine("Create Directory:" + Directory.GetCurrentDirectory() + "/CMakerBuild");
             System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory()+ "/CMakerBuild");
             System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(),"/CMakerBuild/", "CMakeLists.txt"), OutputData.ToString());
 
