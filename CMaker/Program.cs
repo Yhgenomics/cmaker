@@ -25,6 +25,8 @@ namespace CMaker
         public const string AUTO = "auto";
         public const string LIBS = "libs";
 
+        const string CMakeFileDirectoryName = "cmakebuild";
+
         public static StringBuilder OutputData = new StringBuilder();
         public static Dictionary<string, string> Settings = new Dictionary<string, string>();
 
@@ -81,21 +83,21 @@ namespace CMaker
                 var libsArray = Settings[LIBS].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
             }
-            Console.WriteLine("Create Directory:" + Directory.GetCurrentDirectory() + "/CMakerBuild");
-            System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory()+ "/CMakerBuild");
-            string make_directory = Directory.GetCurrentDirectory() + "/CMakerBuild/";
-            Console.WriteLine("CMake File:" + make_directory + "CMakeLists.txt");
+            Console.WriteLine("Creating Directory:" + Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName);
+            System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory()+ "/"+ CMakeFileDirectoryName);
+            string make_directory = Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName+"/";
+            Console.WriteLine("Creating CMakeFile:" + make_directory + "CMakeLists.txt");
             System.IO.File.WriteAllText(Path.Combine(make_directory, "CMakeLists.txt"), OutputData.ToString());
 
             if (Settings.ContainsKey(AUTO) && !string.IsNullOrEmpty(Settings[AUTO]) && Settings[AUTO]=="true")
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = "cmake";
-                psi.Arguments = "./CMakerBuild";
+                psi.Arguments = "./"+ CMakeFileDirectoryName;
                 Process.Start(psi).WaitForExit();
 
                 psi = new ProcessStartInfo();
-                psi.FileName = "./CMakerBuild/make";
+                psi.FileName = "./"+ CMakeFileDirectoryName + "/make";
                 Process.Start(psi);
             }
         }
