@@ -76,7 +76,10 @@ namespace CMaker
             if (Settings.ContainsKey(FLAG) && !string.IsNullOrEmpty(Settings[FLAG]))
                 OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS \"{0}\")", Settings[FLAG]));
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
+            {
+                OutputData.AppendLine(string.Format("SET (CMAKE_BUILD_TYPE Debug)"));
                 OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
+            }
 
             if (Settings.ContainsKey(LIBS) && !string.IsNullOrEmpty(Settings[LIBS]))
             {
@@ -93,14 +96,13 @@ namespace CMaker
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.WorkingDirectory = make_directory;
-
                 psi.FileName = "cmake";
                 psi.Arguments = "./";
+
                 Process.Start(psi).WaitForExit();
 
                 psi = new ProcessStartInfo();
                 psi.WorkingDirectory = make_directory;
-                psi.Arguments = "./";
                 psi.FileName = "make";
                 Process.Start(psi);
             }
