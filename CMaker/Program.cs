@@ -74,7 +74,11 @@ namespace CMaker
             if(Settings.ContainsKey(COMPILER) && !string.IsNullOrEmpty(Settings[COMPILER]))
                 OutputData.AppendLine(string.Format("SET (CMAKE_CXX_COMPILER \"{0}\")", Settings[COMPILER]));
             if (Settings.ContainsKey(FLAG) && !string.IsNullOrEmpty(Settings[FLAG]))
-                OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS \"{0}\")", Settings[FLAG]));
+            {
+                var flags = Settings[FLAG].Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+                string dat = String.Join(" -", flags);
+                OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS \"{0}\")", dat));
+            }
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
             {
                 OutputData.AppendLine(string.Format("SET (CMAKE_BUILD_TYPE Debug)"));
@@ -126,7 +130,7 @@ namespace CMaker
             Settings[FILETYPE] = "*.cpp,*.h";
             Settings[OUT] = "exe";
             Settings[COMPILER] = "/usr/bin/clang++";
-            Settings[FLAG] = "-Wall --std=c++11";
+            Settings[FLAG] = "-Wall -std=c++11";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
             Settings[LIBS] = "";
