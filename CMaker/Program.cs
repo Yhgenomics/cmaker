@@ -72,19 +72,19 @@ namespace CMaker
             } 
 
             if(Settings.ContainsKey(COMPILER) && !string.IsNullOrEmpty(Settings[COMPILER]))
-                OutputData.AppendLine(string.Format("SET (CMAKE_CXX_COMPILER \"{0}\")", Settings[COMPILER]));
+                OutputData.AppendLine(string.Format("set (CMAKE_CXX_COMPILER \"{0}\")", Settings[COMPILER]));
 
             if (Settings.ContainsKey(FLAG) && !string.IsNullOrEmpty(Settings[FLAG]))
             {
                 var flags = Settings[FLAG].Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
                 string dat = String.Join(" -", flags);
-                OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS \"-{0}\")", dat));
+                OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS \"-{0}\")", dat));
             }
 
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
             {
-                OutputData.AppendLine(string.Format("SET (CMAKE_BUILD_TYPE Debug)"));
-                OutputData.AppendLine(string.Format("SET (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
+                OutputData.AppendLine(string.Format("set (CMAKE_BUILD_TYPE Debug)"));
+                OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
             }
 
             if (Settings.ContainsKey(LIBS) && !string.IsNullOrEmpty(Settings[LIBS]))
@@ -92,6 +92,7 @@ namespace CMaker
                 var libsArray = Settings[LIBS].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
             }
+
             Console.WriteLine("Creating Directory:" + Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName);
             System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory()+ "/"+ CMakeFileDirectoryName);
             string make_directory = Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName+"/";
@@ -122,7 +123,7 @@ namespace CMaker
             Console.WriteLine("       ft:*.h,*.cpp(default)");
             Console.WriteLine("       out:exe(default) - support exe,lib");
             Console.WriteLine("       compiler:/usr/bin/clang(default) - support gcc,g++");
-            Console.WriteLine("       flag:-Wall --std=c++11(default)");
+            Console.WriteLine("       flag:-Wall-std=c++11(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
             Console.WriteLine("       libs:[null] - support libxxx.o,libyyy.o");
