@@ -123,7 +123,7 @@ namespace CMaker
             Console.WriteLine("       ft:*.h,*.cpp(default)");
             Console.WriteLine("       out:exe(default) - support exe,lib");
             Console.WriteLine("       compiler:/usr/bin/clang(default) - support gcc,g++");
-            Console.WriteLine("       flag:-Wall-std=c++11(default)");
+            Console.WriteLine("       flag:-Wall-std=c++11-pthread(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
             Console.WriteLine("       libs:[null] - support libxxx.o,libyyy.o");
@@ -133,7 +133,7 @@ namespace CMaker
             Settings[FILETYPE] = "*.cpp,*.h";
             Settings[OUT] = "exe";
             Settings[COMPILER] = "/usr/bin/clang++";
-            Settings[FLAG] = "-Wall -std=c++11";
+            Settings[FLAG] = "-Wall-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
             Settings[LIBS] = "";
