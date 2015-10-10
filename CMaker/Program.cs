@@ -126,7 +126,7 @@ namespace CMaker
             Console.WriteLine("       flag:-Wall-std=c++11-pthread(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
-            Console.WriteLine("       libs:[null] - support libxxx.o,libyyy.o");
+            Console.WriteLine("       libs:libc++.a - support libxxx.o,libyyy.o");
         }
         static void DefaultValue()
         {
@@ -136,7 +136,7 @@ namespace CMaker
             Settings[FLAG] = "-Wall-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
-            Settings[LIBS] = "";
+            Settings[LIBS] = "libc++.a";
         }
         static void ReadArrengment(string[] args)
         {
