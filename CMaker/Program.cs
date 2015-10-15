@@ -43,7 +43,7 @@ namespace CMaker
                 ShowHelp();
                 return;
             }
-            //Settings[PROJECTNAME]
+            
             DefaultValue();
             ReadArrengment(args);
 
@@ -52,10 +52,6 @@ namespace CMaker
                 ShowHelp();
                 return;
             }
-
-            //ProjectName = args[0];
-            //FileType = args[1].Split(',');
-            //GenerateType = args[2];
 
             OutputData.AppendLine(string.Format("project({0})", Settings[PROJECTNAME]));
 
@@ -70,8 +66,6 @@ namespace CMaker
                     }
                 }
             }
-            
-
 
             var files = ScanFiles(System.IO.Directory.GetCurrentDirectory(), Settings[SRC].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
             if(files.Count>0)
