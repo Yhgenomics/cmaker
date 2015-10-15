@@ -205,7 +205,7 @@ namespace CMaker
                 var files = System.IO.Directory.GetFiles(directory, item);
                 foreach (var f in files)
                 {
-                    Console.WriteLine("Add File:" + f);
+                    Console.WriteLine("Add Header Folder:" + Path.GetDirectoryName(f));
                     ret.Add(Path.GetDirectoryName(f));
                 }
             }
@@ -213,7 +213,7 @@ namespace CMaker
             var dirs = System.IO.Directory.GetDirectories(directory);
             foreach (var item in dirs)
             {
-                ret.AddRange(ScanFiles(item, externNames));
+                ret.AddRange(ScanFolder(item, externNames));
             }
 
 
