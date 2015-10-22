@@ -93,7 +93,7 @@ namespace CMaker
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
             {
                 OutputData.AppendLine(string.Format("set (CMAKE_BUILD_TYPE Debug)"));
-                OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
+                //OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
             }
 
             if (Settings.ContainsKey(LIB) && !string.IsNullOrEmpty(Settings[LIB]))
