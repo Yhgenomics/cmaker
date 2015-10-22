@@ -99,7 +99,14 @@ namespace CMaker
             if (Settings.ContainsKey(LIB) && !string.IsNullOrEmpty(Settings[LIB]))
             {
                 var libsArray = Settings[LIB].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
+                List<string> list = new List<string>();
+
+                foreach (var item in libsArray)
+                {
+                    list.Add(System.IO.Path.GetFileName(item));
+                }
+
+                OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", list)));
             }
 
             Console.WriteLine("Creating Directory:" + Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName);
