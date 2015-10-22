@@ -206,7 +206,7 @@ namespace CMaker
                 foreach (var f in files)
                 {
                     Console.WriteLine("Add File:" + f);
-                    ret.Add(f);
+                    ret.Add(Path.GetDirectoryName(f));
                 }
             }
 
