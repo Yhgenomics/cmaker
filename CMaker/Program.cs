@@ -17,13 +17,14 @@ namespace CMaker
     class Program
     {
         public const string PROJECTNAME = "project";
-        public const string FILETYPE = "ft";
+        public const string SRC = "src";
+        public const string HEAD = "head";
         public const string OUT = "out";
         public const string COMPILER = "compiler";
         public const string FLAG = "flag";
         public const string DEBUG_FLAG = "debug";
         public const string AUTO = "auto";
-        public const string LIBS = "libs";
+        public const string LIB = "lib";
 
         const string CMakeFileDirectoryName = "cmakebuild";
 
@@ -57,8 +58,22 @@ namespace CMaker
             //GenerateType = args[2];
 
             OutputData.AppendLine(string.Format("project({0})", Settings[PROJECTNAME]));
-            var files = ScanFiles(System.IO.Directory.GetCurrentDirectory());
 
+            if (Settings.ContainsKey(HEAD) && !string.IsNullOrEmpty(Settings[HEAD]))
+            {
+                var headers = ScanFolder(System.IO.Directory.GetCurrentDirectory(), Settings[HEAD].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                if (headers.Count > 0)
+                {
+                    foreach (var item in headers)
+                    {
+                        OutputData.AppendLine(string.Format("INCLUDE_DIRECTORIES({0})", item));
+                    }
+                }
+            }
+            
+
+
+            var files = ScanFiles(System.IO.Directory.GetCurrentDirectory(), Settings[SRC].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
             if(files.Count>0)
                 OutputData.AppendLine(string.Format("set(SRC_LIST {0})", string.Join(" ",files.ToArray())));
 
@@ -87,9 +102,9 @@ namespace CMaker
                 OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS_DEBUG \"{0}\")", Settings[DEBUG_FLAG]));
             }
 
-            if (Settings.ContainsKey(LIBS) && !string.IsNullOrEmpty(Settings[LIBS]))
+            if (Settings.ContainsKey(LIB) && !string.IsNullOrEmpty(Settings[LIB]))
             {
-                var libsArray = Settings[LIBS].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                var libsArray = Settings[LIB].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", libsArray)));
             }
 
@@ -120,23 +135,25 @@ namespace CMaker
             Console.WriteLine("YHGenomics Inc. Production");
             Console.WriteLine("CMaker project:name [options]");
             Console.WriteLine("options:");
-            Console.WriteLine("       ft:*.h,*.cpp(default)");
+            Console.WriteLine("       head:[null](default)");
+            Console.WriteLine("       src:*.cpp,*.hpp(default)");
             Console.WriteLine("       out:exe(default) - support exe,lib");
             Console.WriteLine("       compiler:/usr/bin/clang(default) - support gcc,g++");
             Console.WriteLine("       flag:-Wall-std=c++11-pthread(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
-            Console.WriteLine("       libs:libc++.a - support libxxx.o,libyyy.o");
+            Console.WriteLine("       lib:libc++.a - support libxxx.o,libyyy.o");
         }
         static void DefaultValue()
         {
-            Settings[FILETYPE] = "*.cpp,*.h";
+            Settings[SRC] = "*.cpp,*.hpp";
+            //Settings[HEAD] = "*.h";
             Settings[OUT] = "exe";
             Settings[COMPILER] = "/usr/bin/clang++";
             Settings[FLAG] = "-Wall-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
-            Settings[LIBS] = "libc++.a";
+            Settings[LIB] = "libc++.a";
         }
         static void ReadArrengment(string[] args)
         {
@@ -154,11 +171,11 @@ namespace CMaker
                 Settings[kv[0]] = kv[1];
             }
         }
-        static List<string> ScanFiles(string directory)
+        static List<string> ScanFiles(string directory, string[] externNames)
         {
             List<string> ret = new List<string>();
             Console.WriteLine("Scaning Directory:"+ directory);
-            var types = Settings[FILETYPE].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var types = externNames; 
             foreach (var item in types)
             {
                 var files = System.IO.Directory.GetFiles(directory, item);
@@ -172,10 +189,36 @@ namespace CMaker
             var dirs = System.IO.Directory.GetDirectories(directory);
             foreach (var item in dirs)
             {
-                ret.AddRange(ScanFiles(item));
+                ret.AddRange(ScanFiles(item, externNames));
             }
 
             return ret;
+        }
+
+        static List<string> ScanFolder(string directory, string[] externNames)
+        {
+            List<string> ret = new List<string>();
+            Console.WriteLine("Scaning Directory:" + directory);
+            var types = externNames;
+            foreach (var item in types)
+            {
+                var files = System.IO.Directory.GetFiles(directory, item);
+                foreach (var f in files)
+                {
+                    Console.WriteLine("Add File:" + f);
+                    ret.Add(f);
+                }
+            }
+
+            var dirs = System.IO.Directory.GetDirectories(directory);
+            foreach (var item in dirs)
+            {
+                ret.AddRange(ScanFiles(item, externNames));
+            }
+
+
+
+            return ret.Distinct().ToList();
         }
     }
 }
