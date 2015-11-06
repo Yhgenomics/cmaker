@@ -103,10 +103,8 @@ namespace CMaker
 
                 foreach (var item in libsArray)
                 {
-                    list.Add(System.IO.Path.GetFileName(item));
+                    OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], System.IO.Path.GetFullPath(item)));
                 }
-
-                OutputData.AppendLine(string.Format("target_link_libraries({0} {1})", Settings[PROJECTNAME], string.Join(" ", list)));
             }
 
             Console.WriteLine("Creating Directory:" + Directory.GetCurrentDirectory() + "/"+ CMakeFileDirectoryName);
