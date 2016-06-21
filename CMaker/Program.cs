@@ -152,7 +152,7 @@ namespace CMaker
             Settings[FLAG] = "-Wall-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
-            Settings[LIB] = "libc++.a";
+            Settings[LIB] = "";
         }
         static void ReadArrengment(string[] args)
         {
