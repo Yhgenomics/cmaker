@@ -132,6 +132,7 @@ namespace CMaker
         {
             Console.WriteLine("CMaker");
             Console.WriteLine("YHGenomics Inc. Production");
+            Console.WriteLine("Build 2016-08-05");
             Console.WriteLine("CMaker project:name [options]");
             Console.WriteLine("options:");
             Console.WriteLine("       head:[null](default)");
