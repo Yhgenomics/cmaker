@@ -149,7 +149,7 @@ namespace CMaker
             Settings[SRC] = "*.cpp,*.hpp";
             //Settings[HEAD] = "*.h";
             Settings[OUT] = "exe";
-            Settings[COMPILER] = "/usr/bin/clang++";
+            Settings[COMPILER] = "g++";
             Settings[FLAG] = "-Wall-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
