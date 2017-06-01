@@ -85,9 +85,9 @@ namespace CMaker
 
             if (Settings.ContainsKey(FLAG) && !string.IsNullOrEmpty(Settings[FLAG]))
             {
-                var flags = Settings[FLAG].Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+                var flags = Settings[FLAG].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 string dat = String.Join(" -", flags);
-                OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS \"-{0}\")", dat));
+                OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS \"{0}\")", dat));
             }
 
             if (Settings.ContainsKey(DEBUG_FLAG) && !string.IsNullOrEmpty(Settings[DEBUG_FLAG]))
@@ -139,7 +139,7 @@ namespace CMaker
             Console.WriteLine("       src:*.cpp,*.hpp(default)");
             Console.WriteLine("       out:exe(default) - support exe,lib");
             Console.WriteLine("       compiler:/usr/bin/clang(default) - support gcc,g++");
-            Console.WriteLine("       flag:-Wall-std=c++11-pthread(default)");
+            Console.WriteLine("       flag:-Wall,-std=c++11-pthread(default)");
             Console.WriteLine("       debug:[null](default) - support -g");
             Console.WriteLine("       auto:false(default) - support -g : auto invoke cmake and make");
             Console.WriteLine("       lib:libc++.a - support libxxx.o,libyyy.o");
@@ -150,7 +150,7 @@ namespace CMaker
             //Settings[HEAD] = "*.h";
             Settings[OUT] = "exe";
             Settings[COMPILER] = "g++";
-            Settings[FLAG] = "-Wall-std=c++11-pthread";
+            Settings[FLAG] = "-Wall,-std=c++11-pthread";
             Settings[DEBUG_FLAG] = "";
             Settings[AUTO] = "false";
             Settings[LIB] = "";
