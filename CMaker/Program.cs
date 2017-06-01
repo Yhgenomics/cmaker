@@ -86,7 +86,7 @@ namespace CMaker
             if (Settings.ContainsKey(FLAG) && !string.IsNullOrEmpty(Settings[FLAG]))
             {
                 var flags = Settings[FLAG].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                string dat = String.Join(" -", flags);
+                string dat = String.Join(" ", flags);
                 OutputData.AppendLine(string.Format("set (CMAKE_CXX_FLAGS \"{0}\")", dat));
             }
 
